@@ -8,7 +8,8 @@
 #It also checks if you are anonymus (different country code than your regular), and connects to the desired server ip with SSH service and executes commands within the script.
 
 #Usage: anon.sh
-#anon function
+
+
 IP=$(curl -s ifconfig.me) #checking my public ip
 bcountry=$(whois $IP 2>/dev/null | grep country | awk '{print $2}' | uniq) # 'b' stants for 'before' using nipe
 function APT
@@ -20,12 +21,12 @@ sudo perl nipe.pl install
 sudo perl nipe.pl start
 
 }
-
+#anon function
 function anon
 {
 	IP=$(curl -s ifconfig.me) #checking my public ip again
 	acountry=$(whois $IP 2>/dev/null | grep country | awk '{print $2}' | uniq) #getting the country code - 'a' stands for 'after' using nipe
-	if [ "$acountry" == "$bcountry" ] #if the country var = IL country code then you are not anonymous else you are
+	if [ "$acountry" == "$1" ] #if the country var = IL country code then you are not anonymous else you are
 	then
 	echo " You are not anonymous"
 	echo " exitting..."
@@ -34,7 +35,7 @@ function anon
 	#Conn3ct function call
 	Conn3ct
 	fi 	
-}
+} 
 function Conn3ct
 {
 read -p "Please insert the server IP you would like to access: " DIP #IP to connect
@@ -51,7 +52,7 @@ then
 APT
 echo "Checking your anonymity..."
 #anon function call
-anon
+anon $bcountry
 else 
 echo "You are not root..."
 echo "exitting..."
